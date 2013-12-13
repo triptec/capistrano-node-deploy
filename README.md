@@ -64,6 +64,9 @@ set :node_user, "james"
 
 # Set the name of the upstart command (defaults to #{application}-#{node_env})
 set :upstart_job_name, "myserver"
+
+# Set if "npm install" should be run (defaults to true)
+set :node_install_packages, false
 ```
 
 

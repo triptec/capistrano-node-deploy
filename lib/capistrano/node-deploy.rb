@@ -40,6 +40,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   set :node_binary, "/usr/bin/node" unless defined? node_binary
   set :node_env, "production" unless defined? node_env
   set :node_user, "deploy" unless defined? node_user
+  set :node_install_packages, true unless defined? node_install_packages
 
   set :stdout_log_path, lambda { "#{shared_path}/log/#{node_env}.out.log" }
   set :stderr_log_path, lambda { "#{shared_path}/log/#{node_env}.err.log" }
@@ -68,8 +69,10 @@ EOD
   namespace :node do
     desc "Check required packages and install if packages are not installed"
     task :install_packages do
-      run "cp -r #{previous_release}/node_modules #{release_path}" if previous_release
-      run "cd #{release_path} && npm install --loglevel warn"
+      if node_install_packages
+        run "cp -r #{previous_release}/node_modules #{release_path}" if previous_release
+        run "cd #{release_path} && npm install --loglevel warn"
+      end
     end
 
     task :check_upstart_config do
