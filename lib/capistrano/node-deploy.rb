@@ -70,11 +70,8 @@ EOD
     desc "Check required packages and install if packages are not installed"
     task :install_packages do
       if node_install_packages
-        p "Installing packages"
         run "cp -r #{previous_release}/node_modules #{release_path}" if previous_release
         run "cd #{release_path} && npm install --loglevel warn"
-      else
-        p "Installing packages"
       end
     end
 
